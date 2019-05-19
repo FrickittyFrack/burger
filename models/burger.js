@@ -1,4 +1,3 @@
-
 // Require ORM
 
 var orm = require("../config/orm");
@@ -6,14 +5,23 @@ var orm = require("../config/orm");
 // Call ORM functions
 
 var burgers = {
-    selectAll: function() {
-
+    selectAll: function(burg) {
+        orm.selectAll("burgers", function(res) {
+            burg(res);
+        });
     },
-    insertOne: function() {
-
+    insertOne: function(name, burg) {
+        orm.insertOne("burgers", [
+            "burger_name, devoured"
+        ], [
+            name, false
+        ], burg);
     },
-    updateOne: function() {
-        
+    updateOne: function(id, burg) {
+        var condition = "id=" + id;
+        orm.updateOne("burgers", {
+            devoured: true
+        }, condition, burg);
     }
 };
 
